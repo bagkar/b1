@@ -1,4 +1,21 @@
-print('***')
-s = 1
-for i in range(1,500):
-  s += 1
+from functools import lru_cache
+ 
+def moves(n):
+    d = [n+1,n+2,n+3,n*2]
+    return d
+ 
+@lru_cache(None)
+def win(n):
+    if  n >= 38:
+        return 0
+   
+    steps = [win(x) for x in moves(n)]
+   
+    t = [x for x in steps if x%2==0]
+    if len(t) > 0:
+        return min(t) + 1
+    else:
+        return max(steps) + 1
+ 
+for s in range(37, 0, -1):
+    print(s, win(s), [win(x) for x in moves(s)])
